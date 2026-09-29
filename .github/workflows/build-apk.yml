@@ -35,10 +35,12 @@ jobs:
           cat android/gradle.properties
 
       - name: Pub get
+        working-directory: power_agent
         run: flutter pub get
 
       - name: Build debug APK
-        run: flutter build apk --debug
+        working-directory: power_agent
+        run: flutter build apk --debug -- --no-daemon -Pandroid.newDsl=false
 
       - name: Upload debug APK artifact
         uses: actions/upload-artifact@v4
