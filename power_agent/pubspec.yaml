@@ -1,0 +1,38 @@
+name: power_agent
+description: "SuperPrivateAgent - powerful on-device Android automation agent with vision + stable overlay + full gestures."
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.4.0
+  speech_to_text: ^7.0.0
+  flutter_tts: ^4.2.0
+  installed_apps: ^1.5.0
+  url_launcher: ^6.3.0
+  android_intent_plus: ^5.1.0
+  flutter_contacts: ^1.1.9+2
+  permission_handler: ^11.4.0
+  shared_preferences: ^2.3.0
+  path_provider: ^2.1.0
+  flutter_local_notifications: ^18.0.0
+  volume_controller: ^2.0.8
+  screen_brightness: ^1.0.1
+  shizuku_api: ^1.2.2
+  share_plus: ^13.2.0
+  intl: ^0.20.3
+  flutter_markdown: ^0.7.7+1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
