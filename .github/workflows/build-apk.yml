@@ -40,7 +40,9 @@ jobs:
 
       - name: Build debug APK
         working-directory: power_agent
-        run: flutter build apk --debug -- --no-daemon -Pandroid.newDsl=false
+        env:
+          GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dandroid.newDsl=false"
+        run: flutter build apk --debug
 
       - name: Upload debug APK artifact
         uses: actions/upload-artifact@v4
