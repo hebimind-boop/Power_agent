@@ -42,7 +42,6 @@
                 android:resource="@xml/accessibility_service_config" />
         </service>
 
-        <!-- Stable overlay: original me ye missing/disabled tha -->
         <service
             android:name="com.example.overlay.OverlayService"
             android:exported="false"

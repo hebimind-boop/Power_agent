@@ -22,7 +22,6 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
-    // 16KB alignment check pass ke liye modern AGP defaults
 }
 
 flutter {

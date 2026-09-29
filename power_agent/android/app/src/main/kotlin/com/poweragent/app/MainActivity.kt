@@ -29,7 +29,6 @@ class MainActivity : FlutterActivity() {
                     "longPressAt" -> result.success(svc?.longPress(call.argument<Int>("x") ?: 500, call.argument<Int>("y") ?: 500, (call.argument<Int>("durationMs") ?: 800)) ?: false)
                     "typeText" -> result.success(svc?.typeText(call.argument<String>("text") ?: "", call.argument<String>("hint") ?: "") ?: false)
                     "pressEnter" -> {
-                        // IME enter via global back-compatible key event
                         val r = svc?.performGlobalAction(android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_BACK) ?: false
                         result.success(r)
                     }
@@ -46,10 +45,7 @@ class MainActivity : FlutterActivity() {
                     "pressHome" -> result.success(svc?.performGlobalAction(android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_HOME) ?: false)
                     "openRecents" -> result.success(svc?.performGlobalAction(android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_RECENTS) ?: false)
                     "openNotifications" -> result.success(svc?.performGlobalAction(android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_NOTIFICATIONS) ?: false)
-                    "getCurrentPackage" -> {
-                        val w = svc?.windows?.firstOrNull { it.type == android.view.accessibility.AccessibilityWindowInfo.TYPE_APPLICATION }
-                        result.success("")
-                    }
+                    "getCurrentPackage" -> result.success("")
                     "showToast" -> {
                         android.widget.Toast.makeText(this, call.argument<String>("msg") ?: "", android.widget.Toast.LENGTH_SHORT).show()
                         result.success(true)
