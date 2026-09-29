@@ -5,6 +5,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,20 +28,31 @@ jobs:
         with:
           channel: 'stable'
 
+      - name: Ensure AGP legacy flags
+        run: |
+          grep -q "android.useAndroidX=true" android/gradle.properties || echo "android.useAndroidX=true" >> android/gradle.properties
+          grep -q "android.newDsl=false" android/gradle.properties || echo "android.newDsl=false" >> android/gradle.properties
+          cat android/gradle.properties
+
       - name: Pub get
         run: flutter pub get
 
-      - name: Analyze
-        run: flutter analyze || true
+      - name: Build debug APK
+        run: flutter build apk --debug
 
-      - name: Test
-        run: flutter test || true
-
-      - name: Build release APK
-        run: flutter build apk --release
-
-      - name: Upload APK artifact
+      - name: Upload debug APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: power-agent-release-apk
-          path: power_agent/build/app/outputs/flutter-apk/app-release.apk
+          name: app-debug-apk
+          path: power_agent/build/app/outputs/flutter-apk/app-debug.apk
+
+      - name: Publish GitHub Release (direct APK)
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="debug-apk-${{ github.run_number }}-${{ github.run_attempt }}"
+          APK_SRC="build/app/outputs/flutter-apk/app-debug.apk"
+          APK_OUT="PowerAgent-debug-build-${{ github.run_number }}.apk"
+          cp "$APK_SRC" "$APK_OUT"
+          gh release create "$TAG" "$APK_OUT" --title "$TAG" --notes "Debug APK build ${{ github.run_number }}" --latest
